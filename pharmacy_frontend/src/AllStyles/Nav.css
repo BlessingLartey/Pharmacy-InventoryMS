@@ -1,0 +1,31 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.nav a {
+    text-decoration: none;
+}
+
+.nav a:last-child {
+    color: whitesmoke;
+    cursor: pointer;
+    font-size: 18px;
+  
+}
+
+.nav a:first-of-type {
+    color: whitesmoke;
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+.nav button {
+    padding: 0.4rem 0.7rem !important;
+    border: none ;
+    border-radius: 5rem;
+    cursor: pointer;
+    
+    
+}

@@ -1,0 +1,114 @@
+body {
+    
+    /* height: 500vh; */
+}
+
+.formContent {
+    margin: 2rem;
+    background-color: rgb(223, 222, 215);
+    max-width: 50%;
+    display: block;
+    /* margin: 0 auto; */
+    border-radius: 5px;
+    box-shadow: 5px auto;
+    outline: none;
+    display: block;
+    flex-direction: row;
+   
+    
+}
+
+.price input {
+    width: 20%;
+}
+
+h2 {
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+
+.modalForm label {
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 3px;
+    padding: 0.9rem;
+    min-width:40%;
+    background-color: whitesmoke;
+
+}
+
+.modalForm input {
+    min-width:30%;
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+
+}
+
+.label Input{
+    min-width: 74% !important;
+}
+
+.formgroup {
+    display: flex;
+    margin: 0.2rem;
+}
+
+.btn button{
+    display: block;
+    margin: 0.1rem;
+    background-color: #46AB6A;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid rgb(224, 221, 221);
+    /* border-radius: 1px; */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: whitesmoke;
+    
+    
+}
+
+.graphContent {
+    display: flex;
+    min-width: 40%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    /* margin: 0 auto; */
+}
+
+.formdetails {
+  display: flex;
+  gap: 35%;
+  padding: 3rem ;
+
+  
+
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+
+.buttons .close {
+    display: block;
+    margin: 0.1rem;
+    background-color: #107383;
+    padding: 0.5rem 2rem;
+    border: 1px solid rgb(224, 221, 221);
+    /* border-radius: 1px; */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: whitesmoke;
+}
