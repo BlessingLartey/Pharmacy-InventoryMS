@@ -1,3 +1,4 @@
+import { updateDrug } from "../../../../../pharmacy_backend/controller/drugController.js";
 import { drugData } from "../../../db.js";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -5,12 +6,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
     drugs: [],
     loading : false,
-    error: null
+    error: null,
 }
 
+// Create a new drug
 export const addDrugThunk = createAsyncThunk('drugs/addDrug', async (drug) => {
     try {
-      const result = await fetch('http://localhost:5000/api/drugs', {
+      const result = await fetch('http://localhost:8000/api/drugs', {
         method: 'POST',
         body:JSON.stringify(drug),
         headers: {
@@ -28,27 +30,54 @@ export const addDrugThunk = createAsyncThunk('drugs/addDrug', async (drug) => {
   
 })
 
+// upadte a drug
+export const updateDrugThunk = createAsyncThunk('drugs/updateDrug', async (drug) => {
+  console.log('arguement' ,drug)
+  try {
+    const update = await fetch(`http://localhost:8000/api/drugs/${drug.drugsId}`, {
+      method: 'PUT',
+      body:JSON.stringify(drug),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  })
 
-export const fetchDrugThunk = createAsyncThunk('drugs/fetchDrug', async (drug) => {
-  const  result = await fetch('http://localhost:5000/api/drugs', {
-    method: 'GET',
-    body:JSON.stringify(drug),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  const updatedDrug = await update.json()
+  console.log('updated drug', updatedDrug )
+  return updatedDrug
+  } catch (error) {
+    console.log(error)
+  }
 
-  const data = await result.json()
-  console.log('adding drug...', data)
-  return data
+
+})
+
+// Fetch all drugs
+export const fetchDrugThunk = createAsyncThunk('drugs/fetchDrug', async () => {
+  try {
+    const  result = await fetch('http://localhost:8000/api/drugs', {
+      method: 'GET',
+      // body:JSON.stringify(drug),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  
+    const data = await result.json()
+    return data
+    
+  } catch (error) {
+    console.log(error)
+  }
 
 })
 
 
+// delete a drug
 export const deleteDrugThunk = createAsyncThunk('drugs/deleteDrug', async (id) => {
   
   try {
-    const response = await fetch(`http://localhost:5000/api/drugs/${id}`, {
+    const response = await fetch(`http://localhost:8000/api/drugs/${id}`, {
   
     method: 'DELETE',
     headers: {
@@ -79,6 +108,13 @@ const drugSlice = createSlice({
          state.drugs.push(action.payload)
        },
     
+
+       updatedDrug: (state, action) => {
+       state.drugs = state.drugs.map((drug) => {
+        drug.id === action.payload.id
+       })
+       },
+
       deleteDrug: (state, action) => {
         state.drugs = state.drugs.filter((drug) => drug._id !== action.payload) 
       }
@@ -122,7 +158,29 @@ extraReducers: builder => {
   })
 
 // updating data using thunk
+.addCase(updateDrugThunk.pending, (state, action) => {
+  state.loading = true
+})
 
+.addCase(updateDrugThunk.fulfilled, (state, action) => {
+  console.log(action);
+  state.loading = false;
+  state.drugs = state.drugs.map((drug) => 
+    drug._id === action.payload._id ? action.payload : drug
+  )
+
+  
+  // state.status = 'succeeded';
+  // const index = state.drugs.findIndex((drug) => drug._id === action.payload._id);
+  // if(index !== -1) {
+  //   state.drugs[index] = action.payload
+  // }
+})
+
+.addCase(updateDrugThunk.rejected, (state, action) => {
+  state.loading = false;
+  state.error.error.message;
+})
 
 
 // deleting drugdata using thunk
@@ -148,5 +206,5 @@ extraReducers: builder => {
 
 })
 
-export const {addDrug} = drugSlice.actions;
+export const {addDrug, updatedDrug, deleteDrug} = drugSlice.actions;
 export default drugSlice.reducer

@@ -1,31 +1,117 @@
-.nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 2rem;
+html,
+body {
+  margin: 0;
 }
 
-.nav a {
-    text-decoration: none;
+#App {
+  font-family: sans-serif;
+
+  /* Give app full page to work with */
+  height: 100%;
+  /* background-color: blue; */
 }
 
-.nav a:last-child {
-    color: whitesmoke;
-    cursor: pointer;
-    font-size: 18px;
-  
+#page-wrap {
+  text-align: center;
+
+  /* Prevent sidebar from showing a scrollbar on page */
+  overflow: auto;
 }
 
-.nav a:first-of-type {
-    color: whitesmoke;
-    font-weight: 900;
-    font-size: 1rem;
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Sidebar item styling */
+  text-decoration: none;
+  margin-bottom: 35px;
+  color: #d1d1d1;
+  transition: color 0.2s;
 }
 
-.nav button {
-    padding: 0.4rem 0.7rem !important;
-    border: none ;
-    border-radius: 5rem;
-    cursor: pointer;
-    
-    
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position:fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+  /* z-index: 5; */
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #388087;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background:#388087;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+.navbar-text {
+  text-align: center;
+  /* padding-left: 500px; */
+  left: 17%;
+}
+
+.navbar-text h1 {
+  font-family: Verdana;
+  font-weight: bold;
+  letter-spacing: 4px;
+  font-size: 16px; 
+}
+
+.navbar-text h6 {
+  font-family: Verdana;
+  letter-spacing: 8px;
+  font-size: 12px;
+}
+
+.dropdown-menu-right {
+  /* background: #373a47 */
+  background-color: white;
+}
+
+.drop{
+  padding-bottom: 40px;
+}
+
+.navigation{
+  width: 100%;
+  top:0;
+  background-color: white;
+  position: fixed;
+  z-index: 1;
+  height:auto;
+  /* display: grid; */
+  /* grid-template-columns: 20% 60% 20%; */
 }

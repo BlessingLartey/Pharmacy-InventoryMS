@@ -21,6 +21,9 @@ import DrugModel  from '../model/drugModel.js'
        }
     } catch (error) {
         console.log(error)
+        if(error instanceof mongoose.Error.ValidationError){
+          console.log(error.errors)
+        }
     }
  }
  // fetching all drugs
@@ -61,6 +64,7 @@ export const updateDrug = async (req, res) => {
        
     } catch (error) {
         console.log(error)
+        // res.status(400).json({message: error.message})
     }
 }
 
@@ -72,14 +76,12 @@ export const deleteDrug = async (req, res) => {
     try {
         const deletedDrug = await DrugModel.findByIdAndDelete(id);
         // res.status(200).send(`Drug with id ${id} deteted successfully`);
-        res.status(200).json({message: 'Drug with id deleted successfully', id})
+        res.status(200).json({message: 'Drug deleted successfully'})
 
-        // if(deleteDrug) {
-        //   alert(`are you sure you want to delete drug with id ${id}`)
-        // }
+        
     } catch (error) {
         console.log(error)
-        res.status(500).send(`Cannot delete drug with id ${id} or id does not exit. Please try again`)
+        res.status(500).json({message: error.message})
     }
 }
 

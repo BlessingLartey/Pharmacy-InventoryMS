@@ -1,16 +1,14 @@
-import React from "react";
-import Nav from "../component/Nav";
-import { Link } from "react-router-dom";
-import Logo from "../images/logo.png";
-import Footer from "../component/Footer";
-import "../App.css";
+import React from 'react'
+import Logo from '../images/logo.png'
+import { Link } from 'react-router-dom'
+import Footer from '../component/Footer'
+import '../App.css'
 
-function HomePage() {
+function HomePage2() {
   return (
-    <>
-      {/* <Nav /> */}
 
-      <div>
+<>
+<div>
         <div className="homepage">
           <div className="homepage-left">
             <img src={Logo} className="App-logo" alt="logo" />
@@ -19,23 +17,22 @@ function HomePage() {
                 fontFamily: "Verdana",
                 fontWeight: "bold",
                 letterSpacing: "3px",
+
               }}
             >
-              Pharmacy & Laboratory{" "}
+              Pharmacy & Laboratory
             </h1>
             <h1
               style={{
                 fontFamily: "Verdana",
                 fontWeight: "bold",
                 letterSpacing: "2px",
-                fontSize: "1.3rem",
+                fontSize: "1.3rem"
               }}
             >
               Inventory Management System
             </h1>
-            <h6 style={{ letterSpacing: "2px" }}>
-              Secure & accessible digital medical data
-            </h6>
+            <h6 style={{ letterSpacing: "2px" }}> Secure & accessible digital medical data</h6>
           </div>
           <div className="homepage-divider"></div>
           <div className="login-section">
@@ -49,7 +46,7 @@ function HomePage() {
                   checked
                 />
                 <label htmlFor="tab-1" className="tab">
-                  Parhmacy
+                  Pharmary
                 </label>
                 <input id="tab-2" type="radio" name="tab" className="sign-up" />
                 <label htmlFor="tab-2" className="tab">
@@ -57,16 +54,30 @@ function HomePage() {
                 </label>
                 <div className="login-form">
                   <div className="sign-in-htm">
-                    <div class="group">
-                      <label htmlFor="user" className="label">
-                        Username
+                    <div className="group">
+                      <label htmlFor="username" className="label">
+                        User ID
                       </label>
                       <input
-                        id="user"
+                        id="username"
                         type="text"
                         className="input input_anim"
                         // value={this.state.username}
                         name="username"
+                        // onChange={this.handleChange}
+                      />
+                    </div>
+                    <div className="group">
+                      <label htmlFor="emailaddress" className="label">
+                        Email address
+                      </label>
+                      <input
+                        id="emailaddress"
+                        type="email"
+                        className="input input_anim"
+                        data-type="email"
+                        // value={this.state.emailaddress}
+                        name="emailaddress"
                         // onChange={this.handleChange}
                       />
                     </div>
@@ -84,43 +95,42 @@ function HomePage() {
                         // onChange={this.handleChange}
                       />
                     </div>
-
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="defaultCheck1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="defaultCheck1"
-                      >
-                        Keep me signed in
+                    <div className="group">
+                      <label htmlFor="pass" className="label">
+                        Confirm Password
                       </label>
+                      <input
+                        id="pass"
+                        type="confirmpassword"
+                        className="input input_anim"
+                        data-type="confirmpassword"
+                        // value={this.state.confirmpassword}
+                        name="conformpassword"
+                        // onChange={this.handleChange}
+                      />
                     </div>
-                    <div class="group">
-                      <Link to="/app">
+                    <div className="group">
+                      <Link to="/profile">
                         <input
                           type="submit"
                           className="button"
-                          value="Sign In"
+                          value="Sign Up"
                         />
                       </Link>
                     </div>
                     <div className="hr"></div>
                     <div className="foot-lnk">
-                      <a href="#forgot">Forgot Password?</a>
                       <p>
-                        Don't have an account? <Link to="/signup">Sign up</Link>
+                        Already have an account? <Link to="/">
+                          Sign in
+                        </Link>
                       </p>
                     </div>
                   </div>
-
                   <div className="sign-up-htm">
                     <div className="group">
-                      <label for="user" className="label">
-                        Username
+                      <label htmlFor="user" class="label">
+                        User ID
                       </label>
                       <input
                         id="user"
@@ -131,9 +141,8 @@ function HomePage() {
                         // onChange={this.handleChange}
                       />
                     </div>
-
-                    {/* <div class="group">
-                      <label for="pass" className="label">
+                    <div className="group">
+                      <label htmlFor="pass" className="label">
                         Email Address
                       </label>
                       <input
@@ -144,10 +153,9 @@ function HomePage() {
                         name="emailaddress"
                         // onChange={this.handleChange}
                       />
-                    </div> */}
-
-                    <div class="group">
-                      <label for="pass" className="label">
+                    </div>
+                    <div className="group">
+                      <label htmlFor="pass" class="label">
                         Password
                       </label>
                       <input
@@ -160,30 +168,28 @@ function HomePage() {
                         // onChange={this.handleChange}
                       />
                     </div>
-                    <div class="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="defaultCheck1"
-                      />
-                      <label className="form-check-label" for="defaultCheck1">
-                        Keep me signed in
+                    <div className="group">
+                      <label htmlFor="pass" className="label">
+                        Confirm Password
                       </label>
+                      <input
+                        id="pass"
+                        type="confirmpassword"
+                        className="input input_anim"
+                        data-type="confirmpassword"
+                        // value={this.state.confirmpassword}
+                        name="confirmpassword"
+                        // onChange={this.handleChange}
+                      />
                     </div>
                     <div className="group">
-                      <a href="/portallogin">
-                        <input
-                          type="submit"
-                          className="button"
-                          value="Sign In"
-                        />
+                      <a href="/professionalprofile">
+                        <input type="submit" class="button" value="Sign Up" />
                       </a>
                     </div>
                     <div className="hr"></div>
                     <div className="foot-lnk">
-                      <a href="#forgot">Forgot Password?</a> <br />Don't have account?
-                      <Link to="/"> Sign up</Link>
+                      Already have an account?<Link to="/">Sign in</Link>
                     </div>
                   </div>
                 </div>
@@ -193,8 +199,10 @@ function HomePage() {
         </div>
         <Footer />
       </div>
-    </>
-  );
+
+</>
+
+    )
 }
 
-export default HomePage;
+export default HomePage2

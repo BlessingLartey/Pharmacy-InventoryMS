@@ -20,14 +20,14 @@ const nhisMedicineList = [
   },
 
   {
-    drugCode: "AMLODITA1",
     drugName: "Amlodipine Tablet, 5 mg",
+    drugCode: "AMLODITA1",
     price: 0.08
   },
 
   {
-    code: "ACICLOTA1",
-    name: "Acyclovir Tablet, 200 mg	",
+    drugName: "Acyclovir Tablet, 200 mg	",
+    drugCode: "ACICLOTA1",
     price: 1.96
   },
 ];

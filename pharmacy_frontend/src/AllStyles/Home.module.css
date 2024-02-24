@@ -1,6 +1,6 @@
 
 .formContent {
-    background-color: rgb(223, 222, 215);
+    background-color: rgba(248, 248, 248, 0.575);
     /* display: block; */
     /* flex-direction: row; */
    
@@ -11,8 +11,9 @@
 
  } */
 .pharmform label {
-    border: 1px solid rgb(196, 195, 195);
-    border-radius: 3px;
+    font-size: 16px;
+    /* border: 1px solid rgb(196, 195, 195); */
+    /* border-radius: 3px; */
     padding: 1rem;
     min-width:60%;
     background-color: whitesmoke;
@@ -21,15 +22,18 @@
 
 .pharmform input {
     min-width:90%;
-    padding: 0.3rem;
+    padding: 0.5rem;
     outline: none;
-    border: none;
-    border-radius: 3px;
+    border: 1px solid rgb(236, 233, 233);
+    font-size: 16px;
+    /* border-radius: 3px; */
+    background-color: whitesmoke;
+
 
 }
 
 .labelInput{
-    min-width: 63% !important;
+    /* min-width: 63% !important; */
 }
 
 .formgroup {
@@ -41,7 +45,7 @@
     display: flex;
     margin: 1px;
     background-color: #46AB6A;
-    padding: 1rem 2rem;
+    padding: 0.5rem 1.5rem;
     border: 1px solid rgb(224, 221, 221);
     /* border-radius: 1px; */
     font-size: 1rem;

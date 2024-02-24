@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import isValidMedicine from "../validateMedicine.js";
 
-const drugSchema = new Schema({
+const labSchema = new Schema({
   drugName: {
     type: String,
     required: [true, 'Drug name is required'],
@@ -41,5 +41,5 @@ const drugSchema = new Schema({
   },
 }, {timestamps: true});
 
-const drug = mongoose.model("drug", drugSchema);
+const drug = mongoose.model("lab", labSchema);
 export default drug;

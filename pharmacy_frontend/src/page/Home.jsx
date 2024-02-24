@@ -7,6 +7,7 @@ import { useSelector , useDispatch} from "react-redux";
 import { addDrug, addDrugThunk, fetchDrugThunk } from "../store/features/drugs/drugSlice";
 // import { drugReducer } from "../redux-store/redux-reducers/drugReducer.js";
 import HeadStyles from '../AllStyles/Header.module.css'
+import Chart from '../component/Chart.jsx'
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,12 +54,18 @@ function Home() {
   }, [dispatch])
   return (
     <>
-   <section className={HeadStyles.header}>
+   {/* <section className={HeadStyles.header}>
         <div className={HeadStyles.topnav}>
           <a className={""} href="https://medtrack.io">
             MedTrack
           </a>
-          <div className={HeadStyles.searchContainer}>
+         
+        </div>
+      </section> */}
+      {/* <PharmNav /> */}
+
+      <section className={HomeStyles.formContent}>
+      <div className={HeadStyles.searchContainer}>
             <form action="">
               <input
                 type="text"
@@ -68,14 +75,8 @@ function Home() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
 
-              {/* <div>{drugs}</div> */}
-              <button>Search</button>
             </form>
           </div>
-        </div>
-      </section>
-
-      <section className={HomeStyles.formContent}>
         <div className={HomeStyles.formdetails}>
           
           <form onSubmit={handleSubmit} className={HomeStyles.pharmform}>
@@ -148,7 +149,7 @@ function Home() {
             </div>
           </form>
 
-          <div className={HomeStyles.graphContent}></div>
+          <div className={HomeStyles.graphContent}><Chart /></div>
         </div>
       </section>
 
