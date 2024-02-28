@@ -1,52 +1,54 @@
 
 .formContent {
-    background-color: rgba(248, 248, 248, 0.575);
-    /* display: block; */
-    /* flex-direction: row; */
-   
+    /* background-color: rgba(248, 248, 248, 0.226); */
+    display: block;
+background-color: rgba(207, 207, 219, 0.521);   
     
 }
 
 /* .pharmform {
 
  } */
-.pharmform label {
+label {
     font-size: 16px;
-    /* border: 1px solid rgb(196, 195, 195); */
-    /* border-radius: 3px; */
-    padding: 1rem;
-    min-width:60%;
-    background-color: whitesmoke;
+    padding: 1rem ;
+    border: 1px solid;
+    border: 1px solid rgb(196, 195, 195);
+    border-radius: 3px;
+    margin:10;
+    min-width:70%;
+    /* background-color: whitesmoke; */
 
 }
 
-.pharmform input {
-    min-width:90%;
-    padding: 0.5rem;
+ .inputText {
+    border: 1px solid;
+
+    min-width:70%;
+    /* padding: 2rem ; */
     outline: none;
-    border: 1px solid rgb(236, 233, 233);
+    border: 1px solid rgb(196, 195, 195);
     font-size: 16px;
-    /* border-radius: 3px; */
-    background-color: whitesmoke;
+    border-radius: 3px;
+    background-color: transparent
 
 
 }
 
-.labelInput{
-    /* min-width: 63% !important; */
-}
+
 
 .formgroup {
+    gap: 0.1rem;
     display: flex;
-    margin: 0.2rem;
+    margin: 0.2rem ;
 }
 
 .btn button{
     display: flex;
     margin: 1px;
     background-color: #46AB6A;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid rgb(224, 221, 221);
+    padding: 0.7rem 1.9rem;
+    border: 1px solid transparent;
     /* border-radius: 1px; */
     font-size: 1rem;
     font-weight: bold;
@@ -55,22 +57,64 @@
     border-radius: 3px;
     
     
-    
 }
 
 .graphContent {
+    margin-bottom: 1.5rem;
     display: flex;
     min-width: 30%;
+    height: 45vh;
+    justify-content: center;
     background-color: whitesmoke;
     border-radius: 5px;
-    /* margin: 0 auto; */
+    margin: 0 auto;
 }
 
 .formdetails {
   display: flex;
   gap: 35%;
-  padding: 3rem ;
+  padding: 2rem 2rem ;
 
   
 
+}
+
+.searchbar {
+    background-color: #fff;
+    width: 30%;
+    border-radius: 5px;
+    height: 2.5rem;
+    padding: 0 10px;
+    box-shadow: 0px 0px 8px #bbbb;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    text-align: justify;
+}
+
+.inputBar {
+    background-color: transparent;
+    border: none;
+    height: 50%;
+    font-size: 0.7rem;
+    width: 50%;
+    text-align: left;
+    
+    
+
+}
+
+.inputBar:focus {
+    outline: none;
+}
+
+
+
+
+@media only screen and (min-width: 600px) {
+    .formContent {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
 }

@@ -21,9 +21,7 @@ import DrugModel  from '../model/drugModel.js'
        }
     } catch (error) {
         console.log(error)
-        if(error instanceof mongoose.Error.ValidationError){
-          console.log(error.errors)
-        }
+       
     }
  }
  // fetching all drugs
@@ -39,10 +37,10 @@ export  const fetchDrugs = async (req, res) => {
 
 // fetching a single drug
 export const fetchDrug = async (req, res) => {
-    const {id} = req.params;
+    // const {_id} = req.params;
 
     try {
-      const drug = await DrugModel.findById(id);
+      const drug = await DrugModel.findById(req.params.id);
        res.status(201).send({
         status: 'success',
         drug
@@ -84,6 +82,84 @@ export const deleteDrug = async (req, res) => {
         res.status(500).json({message: error.message})
     }
 }
+
+
+// fetching UnitOfPrice
+// export const getUnitOfPrice = async (req, res) => {
+//   try {
+//  // use aggregate pipeline to group and count
+//   const unitofPriceCount =  await DrugModel.aggregate([
+      
+//     {
+//       $group: {
+//         _id: "$unitofPrice",
+//         count: {$sum: 1},
+//       }
+//     }
+//   ]);
+// console.log(unitofPriceCount)
+//   // error handling
+//   if (!unitofPriceCount || unitofPriceCount.length === 0) {
+//      return res.status(404).json({message: 'Unit of pricing not found'})
+//   }
+
+//   // transform result into key-value pair
+//   const unitofPriceAcc = unitofPriceCount.reduce(
+//     (acc, {_id, count}) => {
+//       acc[_id] = count;
+//       return acc;
+//     },
+//   {}
+ 
+//     );
+//     console.log(unitofPriceAcc)
+//     res.status(200).json(unitofPriceAcc)
+ 
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json({ message: error.message });
+
+//   }
+// }
+
+// fetching UnitOfPrice
+export const getUnitOfPrice = async (req, res) => {
+  try {
+    // use aggregate pipeline to group and count
+    const unitofPriceCount = await DrugModel.aggregate([
+      {
+        $group: {
+          _id: "$unitofPrice",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    console.log(unitofPriceCount);
+
+    // error handling
+    if (!unitofPriceCount || unitofPriceCount.length === 0) {
+      return res.status(404).json({ message: 'Unit of pricing not found' });
+    }
+
+    // transform result into key-value pair
+    const unitofPriceAcc = unitofPriceCount.reduce(
+      (acc, { _id, count }) => {
+        acc[_id] = count;
+        return acc;
+      },
+      {}
+    );
+
+    console.log(unitofPriceAcc);
+
+    res.status(200).json(unitofPriceAcc); // Move this line outside of the if statement
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
  

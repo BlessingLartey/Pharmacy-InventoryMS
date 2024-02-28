@@ -1,48 +1,41 @@
 import React, { useEffect, useState } from "react";
-import Modal from 'react-modal';
-import { useSelector,  useDispatch } from "react-redux";
+import Modal from "react-modal";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchDrugThunk } from "../store/features/drugs/drugSlice";
 
+function ViewModal({view, props}) {
+  const [modalView, setModalView] = useState(false);
 
-
-function ViewModal({view}) {
-  const [modalView, setModalView] = useState(false)
-  const drugs = useSelector((state) => state.drugs.drugs)
-  console.log(drugs)
+  const drugs = useSelector((state) => state.drugs.drugs);
+  console.log(drugs);
 
   const dispatch = useDispatch();
-  
-//   useEffect(() => {
 
-//     dispatch(fetchDrugThunk())
-//   })
+  //   useEffect(() => {
+
+  //     dispatch(fetchDrugThunk())
+  //   })
 
   return (
-    <Modal
-    isOpen={view}
-    onRequestClose={() => setModalView(false)}
-  >
-      <div>
-   {drugs.map((drug) => (
-        <ul key={drug._id}>
-            <li>{drug.drugName}</li>
-            <li>{drug.description}</li>
-            <li>{drug.drugCode}</li>
-            <li>{drug.unitofPrice}</li>
-            <li>{drug.price}</li>
-        </ul>
+    <Modal 
+     isOpen={view} onRequestClose={() => setModalView(false)}
+      contentLabel="View Drug Modal"
+       >
+{/* 
+      {props.drug && (
+        <div>
+          <h2>View Drug Details</h2>
+          <p>Drug Name: {props.drug.drugName}</p>
+          <p>Description: {props.drug.description}</p>
+          <p>Drug Code: {props.drug.drugCode}</p>
+          <p>Unit of Pricing: {props.drug.unitofPrice}</p>
+          <p>Price: {props.drug.price}</p>
+          <button onClick={props.onClose}>Close</button>
+        </div>
+      )} */}
 
-))}
-</div>
-<button
-            onClick={() => setModalView(false)}
-            // className={ModalStyles.close}
-          >
-            Close
-          </button>
-  
-  </Modal>
-  )
+    </Modal>
+  );
 }
 
 export default ViewModal;

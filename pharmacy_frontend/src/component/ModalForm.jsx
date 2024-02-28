@@ -8,11 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 
 function UpdateDrug({open,drugId, children }) {
-  const {id } = useParams()
-
-  const {success, error, drugs }= useSelector((state) => state.drugs)
-  const drug = drugs.find((item) => item._id === drugId)
-
+ 
   
   //  const findDrug = updatedDrug.find((drug) => {
   //    return drug._id === id
@@ -35,21 +31,7 @@ function UpdateDrug({open,drugId, children }) {
   const navigate = useNavigate()
 
 
-  // useEffect(() => {
-  //   if(success) {
-  //     navigate('/app')
-  //     return toast.success('Updated successfully')
-  //   } 
-      
-  //   if(error) {
-  //     return toast.error('Drug is not updated')
-  //   }
-      
-   
-  //   dispatch(fetchDrugThunk())
-  // }, [navigate, success, error, dispatch])
-
-
+ 
   return (
     <>
     <Modal

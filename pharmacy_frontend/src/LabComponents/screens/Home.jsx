@@ -13,12 +13,11 @@ import {
 import HeadStyles from "../AllStyles/Header.module.css";
 import Chart from "../component/Chart.jsx";
 import { set } from "mongoose";
-import { FaSearch } from "react-icons/fa";
-
+import SearchBar from "../component/SearchBar.jsx";
+import SearchResultList from "../component/SearchResultList.jsx";
 
 function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [drugName, setDrugName] = useState("");
+  const [laName, setLabName] = useState("");
   const [description, setDescription] = useState("");
   const [drugCode, setDrugCode] = useState("");
   const [unitofPrice, setUnitofPrice] = useState("");
@@ -26,8 +25,7 @@ function Home() {
   const [results, setResults] = useState([]);
 
 
-
-  const drugs = useSelector((state) => state.drugs);
+  // const drugs = useSelector((state) => state.drugs);
   // console.log(drugs)
 
   const dispatch = useDispatch();
@@ -37,53 +35,30 @@ function Home() {
   //   return drugs.filter((drug) => drug.drugName.toLowerCase().includes(searchTerm) || drug.description.toLowerCase().includes(searchTerm))
   // }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    const drug = {
-      drugName,
-      description,
-      drugCode,
-      unitofPrice,
-      price,
-    };
+  //   const drug = {
+  //     drugName,
+  //     description,
+  //     drugCode,
+  //     unitofPrice,
+  //     price,
+  //   };
 
-    dispatch(addDrugThunk(drug));
-    setDrugName(""),
-      setDescription(""),
-      setDrugCode(""),
-      setUnitofPrice(""),
-      setPrice("");
-  };
+  //   dispatch(addDrugThunk(drug));
+  //   setDrugName(""),
+  //     setDescription(""),
+  //     setDrugCode(""),
+  //     setUnitofPrice(""),
+  //     setPrice("");
+  // };
 
   useEffect(() => {
     dispatch(fetchDrugThunk());
   }, [dispatch]);
 
 
-     //serach functionality
-     const fetchData = (value) => {
-      fetch("http://localhost:8000/api/drugs")
-        .then((response) => response.json())
-        .then((json) => {
-          const results = json.filter((drug) => {
-            return (
-              value &&
-              drug &&
-              drug.drugName &&
-              drug.drugName.toLowerCase().includes(value) || drug && drug.description && drug.description.toLowerCase().includes(value)
-            );
-          });
-   
-          setResults(results)
-        });
-    };
-  
-    const handleChange = (value) => {
-      setSearchTerm(value);
-      fetchData(value);
-    };
-  
 
   return (
     <>
@@ -99,90 +74,64 @@ function Home() {
 
       <section className={HomeStyles.formContent}>
         <div>
-        <div className={HeadStyles.searchContainer}>
-          <h1
-            style={{
-              lineHeight: "0.2",
-              letterSpacing: "2px",
-              fontFamily: "fantasy",
-              color: "white"
-            }}
-          >
-            Pharmacy Inventory
-          </h1>
-        
-        </div>
-        <div className={Home.searchbar}>
-            <FaSearch style={{color: "#46AB6A"}} />
-            <input
-              type="text"
-              className={Home.inputBar}
-              value={searchTerm}
-              placeholder="Search drug....."
-              name="search"
-              onChange={(e) => handleChange(e.target.value)}
-            />
-          </div>
+       <SearchBar setResults= {setResults} />
+       <SearchResultList  results={results}/>
+
         </div>
         
         <div className={HomeStyles.formdetails}>
           <form onSubmit={handleSubmit} className={HomeStyles.pharmform}>
             <div className={HomeStyles.formgroup}>
               <label htmlFor="drugName" style={{}}>
-                Drug Name
+                Lab item name
               </label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
-                placeholder="Type Drug Name"
-                id="drugName"
-                name="drugName"
-                value={drugName}
-                onChange={(e) => setDrugName(e.target.value)}
-                // autoComplete="off"
+                placeholder="Lab item name"
+                id="labName"
+                name="labName"
+                value={labName}
+                onChange={(e) => setLabName(e.target.value)}
               />
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Lab Type</label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
                 placeholder="Drug description"
                 name="description"
                 id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                // autoComplete="off"
+                value={labType}
+                onChange={(e) => setLabType(e.target.value)}
               />
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="drugCode">Drug Code</label>
+              <label htmlFor="drugCode">Main category</label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
                 placeholder="A0c123FH"
                 id="drugCode"
-                value={drugCode}
+                value={mainCategory}
                 name="drugCode"
-                onChange={(e) => setDrugCode(e.target.value)}
-                autoComplete="off"
-                // autoCapitalize= {true}
+                onChange={(e) => setMainCategory(e.target.value)}
               />
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="unitofPrice">Unit of Pricing</label>
+              <label htmlFor="unitofPrice">Sub Category</label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
                 placeholder="Tablet"
                 id="unitPrice"
-                value={unitofPrice}
+                value={subCategory}
                 name="unitofPrice"
-                onChange={(e) => setUnitofPrice(e.target.value)}
-                // autoComplete="off"
+                onChange={(e) => setSubCategory(e.target.value)}
               />
             </div>
 
@@ -196,8 +145,6 @@ function Home() {
                 value={price}
                 name="price"
                 onChange={(e) => setPrice(e.target.value)}
-                // autoComplete="off"
-                
               />
 
               <div className={HomeStyles.btn}>
