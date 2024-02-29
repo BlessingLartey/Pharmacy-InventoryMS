@@ -5,7 +5,7 @@ import { addLab, fetchLabs, fetchLab, updateLab, deleteLab } from "../controller
 // inilializing your route
 const router = express.Router()
 
-router.post('/', addLab);
+router.post('/addlab', addLab);
 router.get('/', fetchLabs);
 router.get('/:id', fetchLab);
 // router.get('/unitofprice', getUnitOfPrice);

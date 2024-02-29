@@ -4,18 +4,18 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    drugs: [],
+    labs: [],
     unitofPrice: [],
     loading : false,
     error: null,
 }
 
-// Create a new drug
-export const addDrugThunk = createAsyncThunk('drugs/addDrug', async (drug) => {
+// Create a new lab
+export const addLabThunk = createAsyncThunk('labs/addLab', async (lab) => {
     try {
-      const result = await fetch('http://localhost:8000/api/drugs', {
+      const result = await fetch(import.meta.env.VITE_API_URI_LAB, {
         method: 'POST',
-        body:JSON.stringify(drug),
+        body:JSON.stringify(lab),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -255,6 +255,5 @@ extraReducers: builder => {
 
 })
 
-export const {addDrug, updatedDrug, deleteDrug, unitofPrice} = drugSlice.actions;
-
+export const {addDrug, updatedDrug, deleteDrug} = drugSlice.actions;
 export default drugSlice.reducer

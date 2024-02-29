@@ -4,6 +4,7 @@ import drugReducer from './features/drugs/drugSlice'
  export const store = configureStore({
     // all reducers will be here
     reducer: {
-        drugs: drugReducer
+        drugs: drugReducer,
+        labs: labReducer
     }
 })
