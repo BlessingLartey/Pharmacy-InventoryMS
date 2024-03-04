@@ -22,7 +22,7 @@ export const addDrugThunk = createAsyncThunk('drugs/addDrug', async (drug) => {
       });
     
       const data = await result.json()
-      console.log('adding drug....', data)
+      // console.log('adding drug....', data)
       return data
       
     } catch (error) {
@@ -50,8 +50,7 @@ export const fetchSingleDrug = createAsyncThunk('drug/singleDrug', async (id) =>
 })
 
 // upadte a drug
-export const updateDrugThunk = createAsyncThunk('drugs/updateDrug', async (drug) => {
-  console.log('arguement' ,drug)
+export const updateDrugThunk = createAsyncThunk('drugs/updateDrug', async (drug, {getState}) => {
   try {
     const update = await fetch(`http://localhost:8000/api/drugs/${drug.drugsId}`, {
       method: 'PUT',
@@ -62,10 +61,12 @@ export const updateDrugThunk = createAsyncThunk('drugs/updateDrug', async (drug)
   })
 
   const updatedDrug = await update.json()
-  console.log('updated drug', updatedDrug )
-  return updatedDrug
+
+  return {success: true, data: updatedDrug}
   } catch (error) {
-    console.log(error)
+    console.error('Update failed', error)
+    return { success: false, error };
+
   }
 
 
@@ -140,8 +141,8 @@ const drugSlice = createSlice({
     
 
        updatedDrug: (state, action) => {
-       state.drugs = state.drugs.map((drug) => {
-        drug.id === action.payload.id
+       state.drugs = (state.drugs ?? []).map((drug) => {
+        drug._id === action.payload.id ? action.payload.data : drug
        })
 
        },
@@ -212,11 +213,15 @@ extraReducers: builder => {
 })
 
 .addCase(updateDrugThunk.fulfilled, (state, action) => {
-  console.log(action);
-  state.loading = false;
-  state.drugs = state.drugs.map((drug) => 
-    drug._id === action.payload._id ? action.payload : drug
-  )
+ if(action.payload.success) {
+   state.loading = false;
+   state.drugs = state.drugs.map((drug) => 
+    //  drug._id === action.payload._id ? action.payload : drug
+    drug._id === action.payload.data._id ? action.payload.data : drug
+
+   )
+
+ }
 
   
   // state.status = 'succeeded';
@@ -229,6 +234,8 @@ extraReducers: builder => {
 .addCase(updateDrugThunk.rejected, (state, action) => {
   state.loading = false;
   state.error.error.message;
+  console.error('Update failed:', action.payload.error);
+
 })
 
 

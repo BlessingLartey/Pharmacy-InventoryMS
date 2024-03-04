@@ -1,8 +1,7 @@
 import mongoose, { model } from "mongoose";
-import LabModel from '../model/labModel.js'
+import LabModel from "../model/labModel.js";
 // adding a drug
 export const addLab = async (req, res) => {
-
   try {
     const { labName, labType, mainCategory, subCategory, labCode, price } =
       req.body;
@@ -26,8 +25,9 @@ export const addLab = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(401).json({
-        status: 'error',
-      message:"Please ensure that you input the accurate information in the required fields",
+      status: "error",
+      message:
+        "Please ensure that you input the accurate information in the required fields",
     });
   }
 };
@@ -37,7 +37,6 @@ export const fetchLabs = async (req, res) => {
   try {
     const labs = await LabModel.find();
     res.status(200).send(labs);
-    
   } catch (error) {
     console.log(error);
   }
@@ -46,20 +45,18 @@ export const fetchLabs = async (req, res) => {
 // fetching a single lab
 export const fetchLab = async (req, res) => {
   const { id } = req.params;
-//  console.log(_id)
+  //  console.log(_id)
   try {
     const lab = await LabModel.findById(id);
-   
+
     if (!lab) {
-        return res.status(404).send({ message: 'Lab not found' });
+      return res.status(404).send({ message: "Lab not found" });
     }
 
-    res.status(200).send({ status: 'success', lab });
-
+    res.status(200).send({ status: "success", lab });
   } catch (error) {
     console.log(error);
-            res.status(500).send({ error: 'Internal Server Error' });
-
+    res.status(500).send({ error: "Internal Server Error" });
   }
 };
 
@@ -71,17 +68,15 @@ export const updateLab = async (req, res) => {
     const updatedLab = await LabModel.findByIdAndUpdate(id, req.body, {
       new: true,
     });
+
     if (updatedLab) {
-  return    res
-        .status(201)
-        .send(updatedLab)
-        .json({ message: "Lab updated successful" });
+      return res.status(201).send(updatedLab).json({
+        message: "Lab updated successfully",
+        lab: updatedLab,
+      })
     }
   } catch (error) {
     console.log(error);
-    res
-      .status(400)
-      .json({ message: "Update lab is not successful. Please try again " });
   }
 };
 
@@ -94,7 +89,7 @@ export const deleteLab = async (req, res) => {
     res.status(200).json({ message: "Lab deleted successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+    
   }
 };
 

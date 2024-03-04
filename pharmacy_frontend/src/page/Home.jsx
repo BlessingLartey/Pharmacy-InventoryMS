@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Header from "../component/Header";
 import HomeStyles from "../AllStyles/Home.module.css";
-import FormList from "./FormList";
+import FormList from "./FormList.jsx";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   // addDrug,
@@ -13,18 +14,19 @@ import {
 import HeadStyles from "../AllStyles/Header.module.css";
 import Chart from "../component/Chart.jsx";
 import { set } from "mongoose";
-import { FaSearch } from "react-icons/fa";
-
+import { toast } from "react-toastify";
+import Nav from "../component/Nav.jsx";
+import avatar from "../images/avatar.jpg";
+import { Link } from "react-router-dom";
 
 function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [drugName, setDrugName] = useState("");
   const [description, setDescription] = useState("");
   const [drugCode, setDrugCode] = useState("");
   const [unitofPrice, setUnitofPrice] = useState("");
   const [price, setPrice] = useState("");
   const [results, setResults] = useState([]);
-
+  const [newUnitOfPrice, setnewUnitOfPrice] = useState("");
 
 
   const drugs = useSelector((state) => state.drugs);
@@ -32,58 +34,85 @@ function Home() {
 
   const dispatch = useDispatch();
 
-  // search function
-  // const search = (drugs) => {
-  //   return drugs.filter((drug) => drug.drugName.toLowerCase().includes(searchTerm) || drug.description.toLowerCase().includes(searchTerm))
-  // }
+  const newUnitOfPriceOptions = () => {
+     if (!Array.isArray(drugs)) {
+    return null; // or return an appropriate fallback if drugs is not an array
+  }
+    const uniqueUnitPrices = [...new Set(drugs.map((drug) => drug.unitofPrice))];
+    return (
+      <>
+        {uniqueUnitPrices.map((unit, index) => (
+          <option key={index} value={unit}>
+            {unit}
+          </option>
+        ))}
+        <option value="other">Other</option>
+      </>
+    );
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //Validate the input fields
+    if (!drugName || !description || !drugCode || !unitofPrice || !price) {
+      // Show error toast and return if any field is empty
+      toast.error("Please fill in all the fields", {
+        position: "top-left",
+      });
+      return;
+    }
 
     const drug = {
       drugName,
       description,
       drugCode,
-      unitofPrice,
+      unitofPrice: unitofPrice === "other" ? newUnitOfPrice : unitofPrice,
       price,
     };
 
-    dispatch(addDrugThunk(drug));
-    setDrugName(""),
-      setDescription(""),
-      setDrugCode(""),
-      setUnitofPrice(""),
-      setPrice("");
+    const success = await dispatch(addDrugThunk(drug));
+
+    if (success) {
+      dispatch(fetchDrugThunk());
+      toast.success("Drug added successfully", {
+        position: "top-left",
+      });
+
+      // dispatch(addDrugThunk(drug));
+      setDrugName(""),
+        setDescription(""),
+        setDrugCode(""),
+        setUnitofPrice(""),
+        setPrice("");
+    } else {
+      toast.error("Failed to add drug");
+    }
   };
 
   useEffect(() => {
     dispatch(fetchDrugThunk());
   }, [dispatch]);
 
+  //serach functionality
 
-     //serach functionality
-     const fetchData = (value) => {
-      fetch("http://localhost:8000/api/drugs")
-        .then((response) => response.json())
-        .then((json) => {
-          const results = json.filter((drug) => {
-            return (
-              value &&
-              drug &&
-              drug.drugName &&
-              drug.drugName.toLowerCase().includes(value) || drug && drug.description && drug.description.toLowerCase().includes(value)
-            );
-          });
-   
-          setResults(results)
-        });
-    };
-  
-    const handleChange = (value) => {
-      setSearchTerm(value);
-      fetchData(value);
-    };
-  
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    fetchData(value);
+  };
+
+
+  const handleChange = (value) => {
+    if (value === "other") {
+      // If "Other" is selected, set unitofPrice to "other" and clear newUnitOfPrice
+      setUnitofPrice("other");
+      setnewUnitOfPrice("");
+    } else {
+      // If any other option is selected, update unitofPrice and clear newUnitOfPrice
+      setUnitofPrice(value);
+      setnewUnitOfPrice("");
+    }
+  };
 
   return (
     <>
@@ -97,38 +126,35 @@ function Home() {
       </section> */}
       {/* <PharmNav /> */}
 
-      <section className={HomeStyles.formContent}>
-        <div>
+      {/* < Nav /> */}
+
+      <div style={{}}>
         <div className={HeadStyles.searchContainer}>
-          <h1
+          <Link to='/'
             style={{
-              lineHeight: "0.2",
+              // lineHeight: "0.2",
               letterSpacing: "2px",
               fontFamily: "fantasy",
-              color: "white"
+              color: "white",
             }}
           >
             Pharmacy Inventory
-          </h1>
-        
+          </Link>
+   {/* <div style={{display:"flex", margin: "0", textAlign: "right"}}>
+          <img
+            src={avatar}
+            alt="profile"
+            style={{ width: "5%", borderRadius: "100px" }}
+          />
+
+   </div> */}
         </div>
-        <div className={Home.searchbar}>
-            <FaSearch style={{color: "#46AB6A"}} />
-            <input
-              type="text"
-              className={Home.inputBar}
-              value={searchTerm}
-              placeholder="Search drug....."
-              name="search"
-              onChange={(e) => handleChange(e.target.value)}
-            />
-          </div>
-        </div>
-        
+      </div>
+      <section className={HomeStyles.formContent}>
         <div className={HomeStyles.formdetails}>
           <form onSubmit={handleSubmit} className={HomeStyles.pharmform}>
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="drugName" style={{}}>
+              <label className={HomeStyles.labelInfo} htmlFor="drugName">
                 Drug Name
               </label>
               <input
@@ -139,12 +165,14 @@ function Home() {
                 name="drugName"
                 value={drugName}
                 onChange={(e) => setDrugName(e.target.value)}
-                // autoComplete="off"
+                autoComplete="off"
               />
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="description">Description</label>
+              <label className={HomeStyles.labelInfo} htmlFor="description">
+                Description
+              </label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
@@ -154,11 +182,14 @@ function Home() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 // autoComplete="off"
+                autoComplete="off"
               />
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="drugCode">Drug Code</label>
+              <label className={HomeStyles.labelInfo} htmlFor="drugCode">
+                Drug Code
+              </label>
               <input
                 type="text"
                 className={HomeStyles.inputText}
@@ -173,56 +204,61 @@ function Home() {
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="unitofPrice">Unit of Pricing</label>
-              <input
-                type="text"
-                className={HomeStyles.inputText}
-                placeholder="Tablet"
-                id="unitPrice"
-                value={unitofPrice}
+              <label className={HomeStyles.labelInfo} htmlFor="unitofPrice">
+                Unit of Pricing
+              </label>
+
+
+              <select
+                className={HomeStyles.inputTextSelect}
                 name="unitofPrice"
-                onChange={(e) => setUnitofPrice(e.target.value)}
-                // autoComplete="off"
-              />
+                id="unitofPrice"
+                value={unitofPrice}
+                onChange={(e) => handleChange(e.target.value)
+                  // setnewUnitOfPrice("");
+                
+                }
+            >
+              {/* {newUnitOfPriceOptions()} */}
+                <option value="ampoule">Ampoule</option>
+                <option value="tablet">Tablet</option>
+                <option value="1 ml">1 mL</option>
+                <option value="other">Other</option>
+              
+              </select>
+
+
+  {/* Render input for custom unit of price if "Other" is selected */}
+  {unitofPrice === "other" && (
+    <input
+      type="text"
+      className={HomeStyles.inputUp}
+      placeholder="New Unit"
+      id="newUnitOfPrice"
+      value={newUnitOfPrice}
+      onChange={(e) => setnewUnitOfPrice(e.target.value)}
+      autoComplete="off"
+    />
+  )}
             </div>
 
             <div className={HomeStyles.formgroup}>
-              <label htmlFor="price">Price</label>
+              <label className={HomeStyles.labelInfo} htmlFor="price">
+                Price
+              </label>
               <input
-                type="number"
+                type="text"
                 className={HomeStyles.inputText}
-                placeholder="2.02"
+                placeholder="Price"
                 id="price"
                 value={price}
                 name="price"
                 onChange={(e) => setPrice(e.target.value)}
-                // autoComplete="off"
-                
+                autoComplete="off"
               />
-
-              <div className={HomeStyles.btn}>
-                <button
-                  type="submit"
-                  disabled={
-                    !drugName ||
-                    !description ||
-                    !drugCode ||
-                    !unitofPrice ||
-                    !price
-                  }
-                  style={
-                    !drugName ||
-                    !description ||
-                    !drugCode ||
-                    !unitofPrice ||
-                    !price
-                      ? { cursor: "not-allowed" }
-                      : { cursor: "pointer" }
-                  }
-                >
-                  Add
-                </button>
-              </div>
+            </div>
+            <div className={HomeStyles.btn}>
+              <button type="submit">Add</button>
             </div>
           </form>
 

@@ -5,15 +5,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     labs: [],
-    unitofPrice: [],
+    // unitofPrice: [],
     loading : false,
     error: null,
 }
 
 // Create a new lab
-export const addLabThunk = createAsyncThunk('labs/addLab', async (lab) => {
+export const addLabThunk = createAsyncThunk('labs/addLab', async (lab, thunkAPI) => {
     try {
-      const result = await fetch(import.meta.env.VITE_API_URI_LAB, {
+      const result = await fetch("http://localhost:3000/api/labs/addlab", {
         method: 'POST',
         body:JSON.stringify(lab),
         headers: {
@@ -22,19 +22,21 @@ export const addLabThunk = createAsyncThunk('labs/addLab', async (lab) => {
       });
     
       const data = await result.json()
-      console.log('adding drug....', data)
+      // console.log('adding lab....', data)
       return data
       
     } catch (error) {
       console.log(error)
+      return thunkAPI.rejectWithValue(error.message)
+
     }
   
 })
 
 // fetch single drug
-export const fetchSingleDrug = createAsyncThunk('drug/singleDrug', async (id) => {
+export const fetchSingleDrug = createAsyncThunk('lab/singleLab', async (id) => {
   try {
-    const request = await fetch(`http://localhost:8000/api/drugs/${id}`, {
+    const request = await fetch(`http://localhost:3000/api/labs/${id}`, {
       method: 'GET',
       headers : {
         "Content-Type": "application/json"
@@ -50,31 +52,33 @@ export const fetchSingleDrug = createAsyncThunk('drug/singleDrug', async (id) =>
 })
 
 // upadte a drug
-export const updateDrugThunk = createAsyncThunk('drugs/updateDrug', async (drug) => {
-  console.log('arguement' ,drug)
+export const updateLabThunk = createAsyncThunk('labs/updateLab', async (lab) => {
+  console.log('arguement' ,lab)
   try {
-    const update = await fetch(`http://localhost:8000/api/drugs/${drug.drugsId}`, {
+    const update = await fetch(`http://localhost:3000/api/labs/${lab.labsId}`, {
       method: 'PUT',
-      body:JSON.stringify(drug),
+      body:JSON.stringify(lab),
       headers: {
         'Content-Type': 'application/json'
       }
   })
 
-  const updatedDrug = await update.json()
-  console.log('updated drug', updatedDrug )
-  return updatedDrug
+  const updatedLab = await update.json()
+
+  return {success: true, data: updatedLab}
+
   } catch (error) {
-    console.log(error)
+    console.error('Update failed', error)
+    return { success: false, error };
   }
 
 
 })
 
 // Fetch all drugs
-export const fetchDrugThunk = createAsyncThunk('drugs/fetchDrug', async () => {
+export const fetchLabThunk = createAsyncThunk('labs/fetchLab', async () => {
   try {
-    const  result = await fetch('http://localhost:8000/api/drugs');
+    const  result = await fetch('http://localhost:3000/api/labs');
   
     const data = await result.json()
     return data
@@ -87,10 +91,10 @@ export const fetchDrugThunk = createAsyncThunk('drugs/fetchDrug', async () => {
 
 
 // delete a drug
-export const deleteDrugThunk = createAsyncThunk('drugs/deleteDrug', async (id) => {
+export const deleteLabThunk = createAsyncThunk('labs/deleteLab', async (id, thunkAPI) => {
   
   try {
-    const response = await fetch(`http://localhost:8000/api/drugs/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/labs/${id}`, {
   
     method: 'DELETE',
     headers: {
@@ -99,55 +103,57 @@ export const deleteDrugThunk = createAsyncThunk('drugs/deleteDrug', async (id) =
     });
   
     const data = await response.json()
-    console.log('deleted drug', data)
+    // console.log('deleted lab', data)
     return data
     
   } catch (error) {
     console.log(error)
+    return thunkAPI.rejectWithValue(error.message)
+
   }
 })
 
 
 
 // fetching the unit of price
-export const fetchUnitPriceThunk = createAsyncThunk('drugs/unitOfPrice', async (units, thunkAPI) => {
+// export const fetchUnitPriceThunk = createAsyncThunk('labs/unitOfPrice', async (units, thunkAPI) => {
  
-  try {
-    const unitPrice = await fetch('http://localhost:8000/api/drugs/unit-of-price');
+//   try {
+//     const unitPrice = await fetch('http://localhost:3000/api/labs/unit-of-price');
 
-    const result = await unitPrice.json(units);
+//     const result = await unitPrice.json(units);
 
-    return result
+//     return result
 
 
-  } catch (error) {
-    console.log(error)
-    return thunkAPI.rejectWithValue(error.message)
+//   } catch (error) {
+//     console.log(error)
+//     return thunkAPI.rejectWithValue(error.message)
     
-  }
+//   }
 
-})
+// })
 
 
-const drugSlice = createSlice({
-    name: 'drug',
+const labSlice = createSlice({
+    name: 'lab',
     initialState,
     reducers: {
-       addDrug: (state, action) => {
+       addLab: (state, action) => {
         // console.log("action", action)
-         state.drugs.push(action.payload)
+         state.labs.push(action.payload)
        },
     
 
-       updatedDrug: (state, action) => {
-       state.drugs = state.drugs.map((drug) => {
-        drug.id === action.payload.id
+       updatedLab: (state, action) => {
+       state.labs = state.labs.map((lab) => {
+        lab.id === action.payload.id
        })
 
        },
 
-      deleteDrug: (state, action) => {
-        state.drugs = state.drugs.filter((drug) => drug._id !== action.payload) 
+      deleteLab: (state, action) => {
+        state.labs = state.labs.filter((lab) => lab._id !== action.payload) 
       }
     
     
@@ -155,105 +161,98 @@ const drugSlice = createSlice({
 
 
 extraReducers: builder => {
-  builder.addCase(addDrugThunk.pending, (state, action) => {
+  builder.addCase(addLabThunk.pending, (state, action) => {
     state.loading = true
   })
 
 
-  .addCase(addDrugThunk.fulfilled, (state, action) => {
+  .addCase(addLabThunk.fulfilled, (state, action) => {
     state.loading = false
-    state.drugs.push(action.payload)
+    state.labs.push(action.payload)
   })
 
-  .addCase(addDrugThunk.rejected, (state, action) => {
+  .addCase(addLabThunk.rejected, (state, action) => {
   state.loading = false;
   state.error = action.error.message
   
   })
   
   
-  // fetching drugdata using thunk
-  .addCase(fetchDrugThunk.pending, (state, action) => {
+  // fetching labdata using thunk
+  .addCase(fetchLabThunk.pending, (state, action) => {
     state.loading =true
 
   })
 
-  .addCase(fetchDrugThunk.fulfilled, (state, action) => {
+  .addCase(fetchLabThunk.fulfilled, (state, action) => {
     state.loading = false;
-    state.drugs = action.payload
+    state.labs = action.payload
   })
 
-  .addCase(fetchDrugThunk.rejected, (state, action) => {
+  .addCase(fetchLabThunk.rejected, (state, action) => {
     state.loading = false;
     state.error = action.error.message;
   })
 
 
   //fetching Unit of price
-  .addCase(fetchUnitPriceThunk.pending, (state, action) => {
-    state.loading =true
+//   .addCase(fetchUnitPriceThunk.pending, (state, action) => {
+//     state.loading =true
 
-  })
+//   })
 
-  .addCase(fetchUnitPriceThunk.fulfilled, (state, action) => {
-    state.loading = false;
-    state.unitofPrice = action.payload
-  })
+//   .addCase(fetchUnitPriceThunk.fulfilled, (state, action) => {
+//     state.loading = false;
+//     state.unitofPrice = action.payload
+//   })
 
-  .addCase(fetchUnitPriceThunk.rejected, (state, action) => {
-    state.loading = false;
-    state.error = action.error.message;
-  })
+//   .addCase(fetchUnitPriceThunk.rejected, (state, action) => {
+//     state.loading = false;
+//     state.error = action.error.message;
+//   })
 
 
-// updating data using thunk
-.addCase(updateDrugThunk.pending, (state, action) => {
+// updating lab data using thunk
+.addCase(updateLabThunk.pending, (state, action) => {
   state.loading = true
 })
 
-.addCase(updateDrugThunk.fulfilled, (state, action) => {
-  console.log(action);
-  state.loading = false;
-  state.drugs = state.drugs.map((drug) => 
-    drug._id === action.payload._id ? action.payload : drug
-  )
-
-  
-  // state.status = 'succeeded';
-  // const index = state.drugs.findIndex((drug) => drug._id === action.payload._id);
-  // if(index !== -1) {
-  //   state.drugs[index] = action.payload
-  // }
+.addCase(updateLabThunk.fulfilled, (state, action) => {
+  if (action.payload.success) {
+    state.loading = false;
+    state.labs = state.labs.map((lab) =>
+      lab._id === action.payload.data._id ? action.payload.data : lab
+    );
+  }
 })
-
-.addCase(updateDrugThunk.rejected, (state, action) => {
+.addCase(updateLabThunk.rejected, (state, action) => {
   state.loading = false;
-  state.error.error.message;
+  // state.error.error.message;
+  console.error('Update failed:', action.payload.error);
 })
 
 
 // deleting drugdata using thunk
-.addCase(deleteDrugThunk.pending, (state, action) => {
+.addCase(deleteLabThunk.pending, (state, action) => {
   state.loading = true;
 
 })
 
-.addCase(deleteDrugThunk.fulfilled, (state, action) => {
+.addCase(deleteLabThunk.fulfilled, (state, action) => {
   console.log('fulfilled action', action);
   state.loading = false;
-  state.drugs = state.drugs.filter((drug) => drug._id !== action.payload.id)
+  state.labs = state.labs.filter((lab) => lab._id !== action.payload.id)
 })
 
-.addCase(deleteDrugThunk.rejected, (state, action) => {
+.addCase(deleteLabThunk.rejected, (state, action) => {
   state.loading = false;
   state.error = action.error.message;
 })
 }
 
 
-
-
 })
 
-export const {addDrug, updatedDrug, deleteDrug} = drugSlice.actions;
-export default drugSlice.reducer
+
+export const {addLab, updatedLab,fetchLab, deleteLab} = labSlice.actions;
+export default labSlice.reducer

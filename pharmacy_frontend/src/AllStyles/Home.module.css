@@ -1,39 +1,85 @@
 
 .formContent {
     /* background-color: rgba(248, 248, 248, 0.226); */
-    display: block;
 background-color: rgba(207, 207, 219, 0.521);   
-    
 }
 
-/* .pharmform {
+.pharmform {
+padding: 1rem 1rem;
+ display: flex;
+ flex-direction: column;
+ width: 50%;
+ height: 50%;
+ border: none;
+ background-color: transparent;
+ /* background-color: red; */
+ /* border: 1px solid rgb(185, 185, 185); */
+ border-radius: 15px;
+ /* padding: 1rem 1rem; */
+ font-family: 'fantasy';
+ box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+ margin-top: 1rem;
 
- } */
-label {
-    font-size: 16px;
+ }
+
+.labelInfo {
     padding: 1rem ;
-    border: 1px solid;
-    border: 1px solid rgb(196, 195, 195);
+    border: none;
     border-radius: 3px;
-    margin:10;
-    min-width:70%;
+    text-align: right;
+    font-size: 1rem;
+    font-weight: bold;
+    /* margin:10; */
+    width:50%;
+    
     /* background-color: whitesmoke; */
 
 }
 
  .inputText {
     border: 1px solid;
-
-    min-width:70%;
+    width:50%;
     /* padding: 2rem ; */
+    padding: 0.5rem;
     outline: none;
+    border: none;
     border: 1px solid rgb(196, 195, 195);
-    font-size: 16px;
-    border-radius: 3px;
-    background-color: transparent
-
-
+    font-size: 17px;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
+
+.inputTextSelect {
+      border: 1px solid;
+    width:50%;
+    /* padding: 2rem ; */
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    border: 1px solid rgb(196, 195, 195);
+    font-size: 17px;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.inputUp {
+    border: 1px solid;
+    width:20%;
+    padding: 2rem ;
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    border: 1px solid rgb(196, 195, 195);
+    font-size: 17px;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+ 
 
 
 
@@ -44,31 +90,41 @@ label {
 }
 
 .btn button{
-    display: flex;
-    margin: 1px;
+    width: 50%;
     background-color: #46AB6A;
     padding: 0.7rem 1.9rem;
     border: 1px solid transparent;
     /* border-radius: 1px; */
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
     color: whitesmoke;
-    border-radius: 3px;
+    border-radius: 30px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     
     
 }
 
-.graphContent {
+.btn {
+    text-align: center;
+    padding-top: 1rem;
+
+}
+
+
+
+
+
+/* .graphContent {
     margin-bottom: 1.5rem;
     display: flex;
-    min-width: 30%;
+    width: 30%;
     height: 45vh;
     justify-content: center;
     background-color: whitesmoke;
     border-radius: 5px;
     margin: 0 auto;
-}
+} */
 
 .formdetails {
   display: flex;
@@ -84,13 +140,14 @@ label {
     width: 30%;
     border-radius: 5px;
     height: 2.5rem;
-    padding: 0 10px;
+    padding: 0 15px;
     box-shadow: 0px 0px 8px #bbbb;
     display: flex;
     /* justify-content: center; */
     align-items: center;
-    text-align: justify;
 }
+
+
 
 .inputBar {
     background-color: transparent;
@@ -98,7 +155,7 @@ label {
     height: 50%;
     font-size: 0.7rem;
     width: 50%;
-    text-align: left;
+    /* text-align: right; */
     
     
 
@@ -109,6 +166,30 @@ label {
 }
 
 
+.suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+  }
+
+
+
+
+
+
 
 
 @media only screen and (min-width: 600px) {
@@ -117,4 +198,21 @@ label {
         flex-wrap: wrap;
         flex-direction: column;
     }
+
+    .pharmform {
+        width: 60%; 
+        height: 50%; 
+    }
+
+    .formdetails {
+        gap: 10%;
+    }
+
+    .searchbar {
+        width: 20%; /* Adjust as needed */
+    }
+
+  
+
+    
 }

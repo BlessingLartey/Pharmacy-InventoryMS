@@ -26,6 +26,7 @@ const labSchema = new Schema({
   labCode: {
     type: String,
     required: [true, 'Lab code is required']
+     
   },
 
 

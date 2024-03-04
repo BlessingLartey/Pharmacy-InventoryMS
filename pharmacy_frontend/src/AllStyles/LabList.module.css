@@ -1,6 +1,11 @@
- .formContainer {
+.formContainer {
     /* padding: 1rem; */
-    margin-top: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+        /* border-left: 5px solid rgb(207, 205, 205); 
+    border-right: 5px solid rgb(207, 205, 205);   */
+    overflow-y: auto;
+    overflow-x: hidden;
  }
 
 
@@ -9,6 +14,7 @@
     border-collapse:collapse;
     width: 100%;
     padding: 1rem ;
+    border-radius: 30px;
     /* margin: 1rem auto; */
     /* border-left: 5px solid rgb(207, 205, 205); 
     border-right: 5px solid rgb(207, 205, 205);   */
@@ -17,19 +23,21 @@
   th, td {
     
     text-align: left;
-    padding: 8px;
     text-align: center;
     /* border-radius: 3px; */
-    padding: 0.7rem 2rem;
+    padding: 0.9rem 2rem;
      text-align: justify;    
     border: none;
 
 }
 
 
-tr td div span {
-  display: block;
+
+tr td .desc {
+  width: 30%;
+  white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 td {
@@ -63,6 +71,4 @@ table th {
   td button:nth-last-child(2){
     background-color: #45A96B;
   }
-  
-
   

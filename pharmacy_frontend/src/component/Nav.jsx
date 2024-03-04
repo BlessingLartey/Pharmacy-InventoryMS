@@ -11,7 +11,7 @@ function Nav() {
   return (
     <div class="row">
     <div class="container-fluid">
-            <div class="col-xl-2 col-lg-2" style={{marginLeft:"-15px"}}>
+            <div  style={{marginLeft:"-15px"}}>
                 <Menu>
                     <Link to="/"><img src={Logo} alt="Logo" class="sidebar-logo" style={{ height: "auto", width: 50, marginBottom: 50 }} /></Link>
                     <Link to="/professionalprofile" className="menu-item" >Profile</Link>
@@ -23,7 +23,7 @@ function Nav() {
             </div>
             
         <nav class="nav navbar navbar-light navigation">
-            <div class="navbar-text col-lg-8 col-xl-8">
+            <div class="navbar-text">
                 <h1>Pharmacy Management System</h1>
             </div>
             <div class="drop">

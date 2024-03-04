@@ -1,5 +1,5 @@
 import React from "react";
-import '../App.css'
+import '../AllStyles/HomeStyles.css'
 import brand from '../images/brand_MedTrack.svg'
 
 function Footer() {
@@ -7,8 +7,7 @@ function Footer() {
     <div>
       <footer>
         <div
-          class="card-footer text-muted"
-          style={{display:"flex" , textAlign: "center", width: "100%", justifyContent:"space-between", marginTop:"1rem", padding:"0.5rem 2.5rem 0.1rem", color:"#151515"}}
+          class="card-footer"
         >
           {/* <img src={brand} alt="brand-svg" style={{width:"10px"}}/> */}
           <p style={{fontSize:"0.7rem"}}>

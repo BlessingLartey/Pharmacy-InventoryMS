@@ -1,50 +1,46 @@
 import React, { useEffect, useState } from "react";
-import Formlist from "../AllStyles/Formlist.module.css";
-import { drugData } from "../db.js";
+// import { drugData } from "../db.js";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-import UpdateDrug from "../component/ModalForm.jsx";
-import {
-  deleteDrugThunk,
-  fetchDrugThunk,
-  fetchSingleDrug,
-  updateDrugThunk,
-} from "../store/features/drugs/drugSlice.js";
 import { toast } from "react-toastify";
-import HeadStyles from "../AllStyles/Header.module.css";
-import ViewModal from "../component/ViewModal.jsx";
-import ModalStyles from "../AllStyles/ModalStyles.module.css";
-import HomeStyles from '../AllStyles/Home.module.css'
+import { fetchLabThunk , updateLabThunk, deleteLabThunk} from "../../store/features/labs/labSlice.js";
+import LabListStyles from "../../AllStyles/LabList.module.css";
+// import UpdateDrug from "../../component/ModalForm.jsx";
+
+import LabModal from  '../../LabComponents/LabModal.jsx'
+import ModalStyles from "../../AllStyles/ModalStyles.module.css";
+import Home from '../../AllStyles/Home.module.css'
 import { FaSearch } from "react-icons/fa";
 
 
-function FormList() {
+
+function LabList() {
   // viewmodal
   const [modalOpen, setModalOpen] = useState(false);
   const [modalView, setModalView] = useState(false);
-  const [viewedDrug, setViewedDrug] = useState(null);
+  const [viewedLab, setViewedDrugLab] = useState(null);
 
-  const [drugsId, setDrugsId] = useState("");
+  const [labsId, setLabsId] = useState("");
 
   // modal form
   const [modalClose, setModalClose] = useState(false);
-  const [drugName, setDrugName] = useState("");
-  const [description, setDescription] = useState("");
-  const [drugCode, setDrugCode] = useState("");
-  const [unitofPrice, setUnitofPrice] = useState("");
+  const [labName, setLabName] = useState("");
+  const [labType, setLabType] = useState("");
+  const [mainCategory, setMainCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [labCode, setLabCode] = useState("");
   const [price, setPrice] = useState("");
-  const [confirmDeleteDrug, setConfirmDeleteDrug] = useState(null);
+  const [confirmDeleteLab, setConfirmDeleteLab] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredDrugs, setFilteredDrugs] = useState([])
-
-
+  const [filteredLabs, setFilteredLabs] = useState([])
 
   Modal.setAppElement('#root'); 
 
 
+
   const dispatch = useDispatch();
 
-  const drugs = useSelector((state) => state.drugs.drugs);
+  const labs = useSelector((state) => state.labs.labs);
 
   // const handleDelete = (drugId) => {
   //   const confirmDelete = window.confirm("Are you sure you want to delete");
@@ -58,74 +54,97 @@ function FormList() {
   //   }
   // };
 
-  const handleDeleteConfirmation = (drugId) => {
-    dispatch(deleteDrugThunk(drugId));
-    dispatch(fetchDrugThunk());
-    setConfirmDeleteDrug(null);
+  const handleDeleteConfirmation = (labId) => {
+    dispatch(deleteLabThunk(labId));
+    dispatch(fetchLabThunk());
+    setConfirmDeleteLab(null);
     toast.success("Deleted successfully", {
       position: "bottom-center"
     });
   };
 
-  const handleDelete = (drugId) => {
+  const handleDelete = (labId) => {
     // Set the drug to delete confirmation
-    setConfirmDeleteDrug(drugId);
+    setConfirmDeleteLab(labId);
   };
 
-  // updating drug
-  const updating = (id) => {
+  // updating lab
+  const updatingLab = (id) => {
     setModalOpen(true);
-    const drug = drugs.find((item) => item._id === id);
-    setDrugName(drug.drugName);
-    setDrugCode(drug.drugCode);
-    setDescription(drug.description);
-    setPrice(drug.price);
-    setUnitofPrice(drug.unitofPrice);
-    setDrugsId(drug._id);
+    const lab = labs.find((item) => item._id === id);
+    setLabName(lab.labName);
+    setLabType(lab.labType);
+    setMainCategory(lab.mainCategory);
+    setSubCategory(lab.subCategory);
+    setLabCode(lab.labCode);
+    setPrice(lab.price);
+    // setUnitofPrice(drug.unitofPrice);
+    setLabsId(lab._id);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchDrugThunk());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchLabThunk());
+  }, [dispatch]);
+
 
   async function handleUpdate() {
-
-    const updatedDrug = {
-      drugsId,
-      drugName,
-      description,
-      drugCode,
-      unitofPrice,
+    const updatedLab = {
+      labsId,
+      labName,
+      labType,
+      mainCategory,
+      subCategory,
+      labCode,
       price,
     };
-  
-    const success = await  dispatch(updateDrugThunk(updatedDrug))
 
-    if (success) {
-      toast.success("Drug updated successfully", {
-        position: "bottom-left"
-      })
-      // clear form fields after update
-      setDrugName(""),
-        setDescription(""),
-        setDrugCode(""),
-        setUnitofPrice(""), 
+  const success = await dispatch(updateLabThunk(updatedLab));
+
+    // if (updateLabThunk) {
+    //   toast.success("Drug updated successfully");
+    // } else {
+    //   toast.error("Drug not updated");
+    // }
+
+
+   // clear form fields after update
+      // setLabName(""),
+      // setLabType(""),
+      // setMainCategory(""),
+      // setSubCategory(""),
+      // setLabCode("");
+      // setPrice("");
+      // setModalOpen(false)
+
+      if (success) {
+        toast.success("Lab updated successfully", {
+          position: "bottom-left"
+        });
+        // clear form fields after update
+        setLabName("");
+        setLabType("");
+        setMainCategory("");
+        setSubCategory("");
+        setLabCode("");
         setPrice("");
-      setModalOpen(false);
+        setModalOpen(false);
 
+        dispatch(fetchDrugThunk());
 
-    } else {
-      toast.error("Drug not updated")
-    }
-
+        
+      } else {
+        toast.error("Lab not updated");
+      }
   }
 
+
   //viewDrug function
-  const viewDrug = (id) => {
-    const drug = drugs.find((data) => data._id === id);
-    setViewedDrug(drug);
+  const viewLab = (id) => {
+    const lab = labs.find((data) => data._id === id);
+    setViewedDrugLab(lab);
     setModalView(true);
   };
+
 
 
 
@@ -133,75 +152,67 @@ function FormList() {
     setSearchTerm(value);
 
     // Filter labs based on the search term
-    const filtered = drugs.filter(
-      (drug) =>
-        drug.drugName.toLowerCase().includes(value.toLowerCase()) ||
-        drug.drugCode.toLowerCase().includes(value.toLowerCase()) ||
-        drug.description.toLowerCase().includes(value.toLowerCase())
+    const filtered = labs.filter(
+      (lab) =>
+        lab.labName.toLowerCase().includes(value.toLowerCase()) ||
+        lab.labType.toLowerCase().includes(value.toLowerCase()) ||
+        lab.labCode.toLowerCase().includes(value.toLowerCase())
     );
 
-    setFilteredDrugs(filtered);
+    setFilteredLabs(filtered);
   };
 
-  const DrugsToDisplay = searchTerm ? filteredDrugs : drugs;
+  const labsToDisplay = searchTerm ? filteredLabs : labs;
 
   return (
     <>
-      <div className={Formlist.formContainer}>
-        {/* <h2 style={{ padding: "0.5rem 2.5rem" }}>Drug List</h2> */}
-        <div className={HomeStyles.searchbar}>
-            <FaSearch style={{ color: "#46AB6A" }} />
+      <div className={Home.searchbar}>
+            <FaSearch style={{color: "#46AB6A"}} />
             <input
               type="text"
-              className={HomeStyles.inputBar}
+              className={Home.inputBar}
               value={searchTerm}
               placeholder="Search drug....."
               name="search"
               onChange={(e) => handleChange(e.target.value)}
             />
           </div>
+      <div className={LabListStyles.formContainer}>
+        {/* <h2 style={{ padding: "0.5rem 2.5rem" }}>Drug List</h2> */}
         <div className="">
           <table className="">
             <thead>
               <tr>
-                <th>Drug Name</th>
-                <th>Description</th>
-                <th>Drug Code</th>
-                <th>Unit of Pricing</th>
+                <th>Lab item name</th>
+                <th>Lab Type</th>
+                <th>Main category</th>
+                <th>Sub Category</th>
+                <th>Lab item code</th>
                 <th>Price</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
-            <tbody>
-              {DrugsToDisplay.map((drug) => (
-                <tr key={drug._id}>
-                  <td style={{ textAlign: "justify" }}>
-                    <div style={{overflow: "hidden", width: "50px", whiteSpace: "nowrap", }}>
-                     {drug.drugName}
-
-                    </div>
-                    </td>
-                  <td>
-                    <div style={{overflow: "hidden", width: "50px", whiteSpace: "nowrap"}}>
-                    <span>
-                    {drug.description}
-                    </span>
-                    </div>
-                  </td>
-                  <td>{drug.drugCode}</td>
-                  <td>{drug.unitofPrice}</td>
-                  <td>{drug.price}</td>
+            <tbody >
+              {labsToDisplay.map((lab) => (
+                <tr key={lab._id}>
+                  <td>{lab.labName}</td>
+                  <td style={{ textAlign: "justify" }}>{lab.labType}</td>
+                  <td className="desc">{lab.mainCategory}</td>
+                  <td>{lab.subCategory}</td>
+                  <td>{lab.labCode}</td>
+                  <td>{lab.price}</td>
                   <td
                     style={{
                       display: "flex",
                       justifyContent: "space-evenly",
                       textAlign: "center",
+                      gap: "0.5rem",
                     }}
                   >
-                    <button onClick={() => viewDrug(drug._id)}>View</button>
-                    <button onClick={() => updating(drug._id)}>Update</button>
+                    <button onClick={() => viewLab(lab._id)}>View</button>
+                    <button onClick={() => updatingLab(lab._id)}>Update</button>
 
-                    <button onClick={() => handleDelete(drug._id)}>
+                    <button onClick={() => handleDelete(lab._id)}>
                       Delete
                     </button>
                   </td>
@@ -212,9 +223,9 @@ function FormList() {
         </div>
 
         {/* Delete Confirmation Modal */}
-        <Modal
-          isOpen={confirmDeleteDrug !== null}
-          onRequestClose={() => setConfirmDeleteDrug(null)}
+       <Modal
+          isOpen={confirmDeleteLab !== null}
+          onRequestClose={() => setConfirmDeleteLab(null)}
           className="confirmation-modal"
         >
           <div className="confirmation-content">
@@ -223,11 +234,11 @@ function FormList() {
             </p>
             <div className="confirmation-buttons">
               <button
-                onClick={() => handleDeleteConfirmation(confirmDeleteDrug)}
+                onClick={() => handleDeleteConfirmation(confirmDeleteLab)}
               >
                 Yes
               </button>
-              <button onClick={() => setConfirmDeleteDrug(null)}>No</button>
+              <button onClick={() => setConfirmDeleteLab(null)}>No</button>
             </div>
 
             <style jsx="true">
@@ -268,12 +279,10 @@ function FormList() {
               `}
             </style>
           </div>
-        </Modal>
+        </Modal> 
 
-        {/* <ViewModal open={modalView} onClose={() => setModalView(false)} /> */}
-       
         {/* View modal */}
-        <UpdateDrug open={modalView} className="modalForm">
+        <LabModal open={modalView} className="modalForm">
           <h2
             style={{
               color: "#151515",
@@ -285,28 +294,33 @@ function FormList() {
               fontFamily: "fantasy",
             }}
           >
-            Drug Details
+            Lab Details
           </h2>
           <div className="viewContent">
             <div className="textDes">
-              <p className="text">Drug Name:</p>
-              <p> {viewedDrug?.drugName}</p>
+              <p className="text">Lab item name:</p>
+              <p> {viewedLab?.labName}</p>
             </div>
             <div className="textDes">
-              <p className="text">Description:</p>{" "}
-              <p>{viewedDrug?.description}</p>
+              <p className="text">Lab type:</p>
+              <p>{viewedLab?.labType}</p>
             </div>
             <div className="textDes">
-              <p className="text">Drug Code: </p>
-              <p>{viewedDrug?.drugCode}</p>
+              <p className="text">Main category: </p>
+              <p>{viewedLab?.mainCategory}</p>
             </div>
             <div className="textDes">
-              <p className="text">Unit of Pricing:</p>
-              <p>{viewedDrug?.unitofPrice}</p>
+              <p className="text">Sub category:</p>
+              <p>{viewedLab?.subCategory}</p>
             </div>
+            <div className="textDes">
+              <p className="text">Lab item code: </p>
+              <p> {viewedLab?.labCode}</p>
+            </div>
+
             <div className="textDes">
               <p className="text">Price: </p>
-              <p> {viewedDrug?.price}</p>
+              <p> {viewedLab?.price}</p>
             </div>
 
             <div className="btnClose">
@@ -315,13 +329,10 @@ function FormList() {
 
             <style jsx="true">
               {`
-
-
                 .modalForm {
-                  dispaly: flex
                   text-align: center;
                   font-family: fantasy;
-                  // max-width: 100px;
+                  max-width: 100px;
                   margin: 0 auto;
                 }
 
@@ -348,7 +359,6 @@ function FormList() {
                   background-color: #46ab6a;
                   border-radius: 30px;
                   color: white;
-                  cursor: pointer
                 }
 
                 .btnClose {
@@ -367,20 +377,13 @@ function FormList() {
                 .view {
                   width: 40% !important;
                 }
-
-                @media (max-width: 768px) {
-                  .viewContent {
-                    width: 100%;
-                  }
-                }
-                
               `}
             </style>
           </div>
-        </UpdateDrug>
+        </LabModal>
 
         {/* update modal */}
-        <UpdateDrug open={modalOpen}>
+        <LabModal open={modalOpen}>
           <p
             style={{
               textAlign: "center",
@@ -389,56 +392,76 @@ function FormList() {
               color: "#151515",
               margin: "0",
               marginBottom: "0.5rem",
-              paddingTop: "0.5rem"
+              paddingTop: "0.5rem",
             }}
           >
-            Update Drug Info
+            Update Lab Details
           </p>
           <div className={ModalStyles.modalForm}>
             <div className={ModalStyles.formgroup}>
-              <label htmlFor="drugName">Drug Name</label>
+              <label htmlFor="labName">Lab item name</label>
               <input
                 type="text"
-                placeholder="Type Drug Name"
-                id="drugname"
-                name="drugname"
-                value={drugName}
-                onChange={(e) => setDrugName(e.target.value)}
+                placeholder="Lab item name"
+                id="labName"
+                name="labName"
+                value={labName}
+                onChange={(e) => setLabName(e.target.value)}
               />
             </div>
 
             <div className={ModalStyles.formgroup}>
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                placeholder="Drug description"
-                value={description}
-                name="description"
-                id="description"
-                onChange={(e) => setDescription(e.target.value)}
-              />
+              <label htmlFor="labType">Lab type</label>
+              <select
+                className={Home.inputText}
+                name="labType"
+                id="labtype"
+                value={labType}
+                onChange={(e) => setLabType(e.target.value)}
+              >
+                <option value="radiology">Radiology</option>
+                <option value="laboratory">Laboratory</option>
+                <option value="other">Other</option>
+              </select>
             </div>
             <div className={ModalStyles.formgroup}>
-              <label htmlFor="drugCode">Drug Code</label>
-              <input
-                type="text"
-                placeholder="A0c123FH"
-                id="drugCode"
-                value={drugCode}
-                name="drugCode"
-                onChange={(e) => setDrugCode(e.target.value)}
-              />
+              <label htmlFor="mainCategory">Main category</label>
+              <select
+                className={Home.inputText}
+                name="mainCategory"
+                id="maincategory"
+                value={mainCategory}
+                onChange={(e) => setMainCategory(e.target.value)}
+              >
+                <option value="x-ray">X-Ray</option>
+                <option value="ct-scan">CT-Scan</option>
+                <option value="Blood-count">Full blood count</option>
+                <option value="other">Other</option>
+              </select>
             </div>
 
             <div className={ModalStyles.formgroup}>
-              <label htmlFor="unitofPrice">Unit of Pricing</label>
+              <label htmlFor="subCategory">Sub category</label>
               <input
                 type="text"
                 placeholder="Tablet"
-                id="unitofPrice"
-                value={unitofPrice}
-                name="unitofPrice"
-                onChange={(e) => setUnitofPrice(e.target.value)}
+                id="subCategory"
+                value={subCategory}
+                name="subCategory"
+                onChange={(e) => setSubCategory(e.target.value)}
+              />
+            </div>
+
+            <div className={ModalStyles.formgroup}>
+              <label htmlFor="labCode">Lab item code</label>
+              <input
+               className={ModalStyles.price}
+                type="text"
+                placeholder="Item code"
+                id="price"
+                value={labCode}
+                name="labcode"
+                onChange={(e) => setLabCode(e.target.value)}
               />
             </div>
 
@@ -463,14 +486,14 @@ function FormList() {
                 Close
               </button>
               <div className={ModalStyles.btn}>
-                <button onClick={() => handleUpdate(drugsId)}>Update</button>
+                <button onClick={() => handleUpdate(labsId)}>Update</button>
               </div>
             </div>
           </div>
-        </UpdateDrug>
+        </LabModal>
       </div>
     </>
   );
 }
 
-export default FormList;
+export default LabList;

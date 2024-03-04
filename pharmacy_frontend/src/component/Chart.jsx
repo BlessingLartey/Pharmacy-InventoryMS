@@ -1,71 +1,59 @@
 import React, { useEffect } from "react";
 import { CChart } from "@coreui/react-chartjs";
 import { fetchUnitPriceThunk } from "../store/features/drugs/drugSlice";
-import { useDispatch , useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { PieChart } from "@mui/x-charts/PieChart";
 
 function Chart() {
-
-  const dispatch = useDispatch()
-  const unitPrice = useSelector((state) =>  state.drugs.unitofPrice)
-  console.log('unit of price..', unitPrice);
-
+  const dispatch = useDispatch();
+  const unitPrice = useSelector((state) => state.drugs.unitofPrice);
 
   useEffect(() => {
-    dispatch(fetchUnitPriceThunk())
-  }, [dispatch])
-//  const data = unitPrice
+    dispatch(fetchUnitPriceThunk());
+  }, [dispatch]);
 
-//   const data = {
-//   labels: [
-//     'Red',
-//     'Blue',
-//     'Yellow'
-//   ],
-//   datasets: [{
-//     label: 'My First Dataset',
-//     data: [300, 50, 100],
-//     backgroundColor: [
-//       'rgb(255, 99, 132)',
-//       'rgb(54, 162, 235)',
-//       'rgb(255, 205, 86)'
-//     ],
-//     hoverOffset: 4
-//   }]
-// };
+  const data = Object.entries(unitPrice).map(([label, value]) => ({
+    label,
+    value,
+  }));
 
-const data = Object.entries(unitPrice).map(([label, value]) => [
-  label,
-  value,
-]);
+  console.log("data", data);
 
-const dataHeader = [["Unit of Pricing", "Count"], ...data];
-
+  const dataHeader = [["Unit of Pricing", "Count"], ...data];
+  console.log("data head", dataHeader);
   return (
-    
-    <CChart
-      type="doughnut"
-      data={{
-        labels: [dataHeader],
-        datasets: [
-          {
-            // backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16"],
-            data: [dataHeader],
-          },
-        ],
-      }}
-      options={{
-        plugins: {
-          legend: {
-            labels: {
-              // color: getStyle('--cui-body-color'),
-              unitPrice
+    <>
+      <div style={{}}>
+        <h3
+          style={{
+            fontSize: "16px",
+            textAlign: "center",
+            paddingTop: "0.7rem",
+          }}
+        >
+          Drug Statistical Chart
+        </h3>
+        <p
+          style={{
+            fontSize: "16px",
+            textAlign: "center",
+            paddingTop: "0.7rem",
+          }}
+        >
+          Showing percentage of drugs available using the unit of pricing
+        </p>
+
+        <PieChart
+          series={[
+            {
+              data: dataHeader,
             },
-          },
-        },
-      }}
-    />
-
-
+          ]}
+          width={400}
+          height={200}
+        />
+      </div>
+    </>
   );
 }
 

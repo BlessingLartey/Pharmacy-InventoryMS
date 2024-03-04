@@ -24,6 +24,7 @@ import DrugModel  from '../model/drugModel.js'
        
     }
  }
+
  // fetching all drugs
 export  const fetchDrugs = async (req, res) => {
     try {
@@ -34,6 +35,7 @@ export  const fetchDrugs = async (req, res) => {
       console.log(error)  
     }
 }
+
 
 // fetching a single drug
 export const fetchDrug = async (req, res) => {

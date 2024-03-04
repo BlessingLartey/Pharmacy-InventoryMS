@@ -5,12 +5,20 @@ const drugSchema = new Schema({
   drugName: {
     type: String,
     required: [true, 'Drug name is required'],
-    // validate: {
-    //   validator: function (value) {
-    //     return  isValidMedicine(value).then(isValid => isValid);
-    //   },
-    //   message: "Invalid medicine name. Please check the NHIS medicine list,",
-    // },
+//     validate: {
+//       validator: async function (value) {
+// try {
+//   const isValid = await isValidMedicine(value)
+  
+//   if (!isValid) {
+//     throw new Error("Invalid medicine name . Please check the NHIS medicine list.");
+//   }
+  
+// } catch (error) {
+//   throw new Error("Error validating medicine name.")
+// }
+//       },
+//     },
   },
 
   description: {
@@ -20,12 +28,20 @@ const drugSchema = new Schema({
 
   drugCode: {
     type: String,
-    required: [true, 'Drug code is required']
+    required: [true, 'Drug code is required'],
+    uppercase: true,
     // validate: {
-    //   validator: function (value) {
-    //     return  isValidMedicine(value);
+    //   validator: async function (value) {
+    //     try {
+          
+    //       const isValid = await isValidMedicine(value)
+    //       if (!isValid) {
+    //         throw new Error("Invalid medicine code. Please check the NHIS medicine list.");
+    //       }
+    //     } catch (error) {
+    //       throw new Error("Error validating medicine code.")
+    //     }
     //   },
-    //   message: "Invalid medicine code. Please check the NHIS medicine list.",
     // },
   },
 
@@ -40,6 +56,8 @@ const drugSchema = new Schema({
     required: [true, 'Price is required']
   },
 }, {timestamps: true});
+
+
 
 const drug = mongoose.model("drug", drugSchema);
 export default drug;
