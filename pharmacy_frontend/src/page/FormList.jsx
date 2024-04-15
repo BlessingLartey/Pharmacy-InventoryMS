@@ -14,9 +14,8 @@ import { toast } from "react-toastify";
 import HeadStyles from "../AllStyles/Header.module.css";
 import ViewModal from "../component/ViewModal.jsx";
 import ModalStyles from "../AllStyles/ModalStyles.module.css";
-import HomeStyles from '../AllStyles/Home.module.css'
+import HomeStyles from "../AllStyles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
-
 
 function FormList() {
   // viewmodal
@@ -35,40 +34,24 @@ function FormList() {
   const [price, setPrice] = useState("");
   const [confirmDeleteDrug, setConfirmDeleteDrug] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredDrugs, setFilteredDrugs] = useState([])
+  const [filteredDrugs, setFilteredDrugs] = useState([]);
 
-
-
-  Modal.setAppElement('#root'); 
-
+  Modal.setAppElement("#root");
 
   const dispatch = useDispatch();
 
   const drugs = useSelector((state) => state.drugs.drugs);
-
-  // const handleDelete = (drugId) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete");
-
-  //   if (confirmDelete) {
-  //     dispatch(deleteDrugThunk(drugId));
-  //     dispatch(fetchDrugThunk());
-  //     toast.success("Deleted successfully");
-  //   } else {
-  //     toast.error("Drug not deleted");
-  //   }
-  // };
 
   const handleDeleteConfirmation = (drugId) => {
     dispatch(deleteDrugThunk(drugId));
     dispatch(fetchDrugThunk());
     setConfirmDeleteDrug(null);
     toast.success("Deleted successfully", {
-      position: "bottom-center"
+      position: "bottom-center",
     });
   };
 
   const handleDelete = (drugId) => {
-    // Set the drug to delete confirmation
     setConfirmDeleteDrug(drugId);
   };
 
@@ -84,12 +67,7 @@ function FormList() {
     setDrugsId(drug._id);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchDrugThunk());
-  // }, [dispatch]);
-
   async function handleUpdate() {
-
     const updatedDrug = {
       drugsId,
       drugName,
@@ -98,26 +76,22 @@ function FormList() {
       unitofPrice,
       price,
     };
-  
-    const success = await  dispatch(updateDrugThunk(updatedDrug))
+
+    const success = await dispatch(updateDrugThunk(updatedDrug));
 
     if (success) {
       toast.success("Drug updated successfully", {
-        position: "bottom-left"
-      })
-      // clear form fields after update
+        position: "bottom-left",
+      });
       setDrugName(""),
         setDescription(""),
         setDrugCode(""),
-        setUnitofPrice(""), 
+        setUnitofPrice(""),
         setPrice("");
       setModalOpen(false);
-
-
     } else {
-      toast.error("Drug not updated")
+      toast.error("Drug not updated");
     }
-
   }
 
   //viewDrug function
@@ -126,8 +100,6 @@ function FormList() {
     setViewedDrug(drug);
     setModalView(true);
   };
-
-
 
   const handleChange = (value) => {
     setSearchTerm(value);
@@ -148,26 +120,25 @@ function FormList() {
   return (
     <>
       <div className={Formlist.formContainer}>
-        {/* <h2 style={{ padding: "0.5rem 2.5rem" }}>Drug List</h2> */}
         <div className={HomeStyles.searchbar}>
-            <FaSearch style={{ color: "#46AB6A" }} />
-            <input
-              type="text"
-              className={HomeStyles.inputBar}
-              value={searchTerm}
-              placeholder="Search drug....."
-              name="search"
-              onChange={(e) => handleChange(e.target.value)}
-            />
-          </div>
+          <FaSearch style={{ color: "#46AB6A" }} />
+          <input
+            type="text"
+            className={HomeStyles.inputBar}
+            value={searchTerm}
+            placeholder="Search drug....."
+            name="search"
+            onChange={(e) => handleChange(e.target.value)}
+          />
+        </div>
         <div className="">
           <table className="">
             <thead>
               <tr>
                 <th>Drug Name</th>
-                <th>Description</th>
-                <th>Drug Code</th>
-                <th>Unit of Pricing</th>
+                <th className="ssi">Description</th>
+                <th className="ssi">Drug Code</th>
+                <th className="ssi">Unit of Pricing</th>
                 <th>Price</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
@@ -176,20 +147,29 @@ function FormList() {
               {DrugsToDisplay.map((drug) => (
                 <tr key={drug._id}>
                   <td style={{ textAlign: "justify" }}>
-                    <div style={{overflow: "hidden", width: "50px", whiteSpace: "nowrap", }}>
-                     {drug.drugName}
-
-                    </div>
-                    </td>
-                  <td>
-                    <div style={{overflow: "hidden", width: "50px", whiteSpace: "nowrap"}}>
-                    <span>
-                    {drug.description}
-                    </span>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        width: "50px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {drug.drugName}
                     </div>
                   </td>
-                  <td>{drug.drugCode}</td>
-                  <td>{drug.unitofPrice}</td>
+                  <td>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        width: "50px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      <span className="ssi">{drug.description}</span>
+                    </div>
+                  </td>
+                  <td className="ssi">{drug.drugCode}</td>
+                  <td className="ssi">{drug.unitofPrice}</td>
                   <td>{drug.price}</td>
                   <td
                     style={{
@@ -271,7 +251,7 @@ function FormList() {
         </Modal>
 
         {/* <ViewModal open={modalView} onClose={() => setModalView(false)} /> */}
-       
+
         {/* View modal */}
         <UpdateDrug open={modalView} className="modalForm">
           <h2
@@ -389,7 +369,7 @@ function FormList() {
               color: "#151515",
               margin: "0",
               marginBottom: "0.5rem",
-              paddingTop: "0.5rem"
+              paddingTop: "0.5rem",
             }}
           >
             Update Drug Info

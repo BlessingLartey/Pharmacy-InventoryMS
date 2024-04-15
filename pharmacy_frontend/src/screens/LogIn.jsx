@@ -1,17 +1,12 @@
 import React from "react";
-import Nav from "../component/Nav";
 import { Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 import Footer from "../component/Footer";
-// import "../App.css";
-import '../AllStyles/HomeStyles.css'
-import '../AllStyles/login&signStyles.css'
+import "../AllStyles/login&signStyles.css";
 
-function HomePage() {
+function LogIn() {
   return (
     <>
-      {/* <Nav /> */}
-
       <div>
         <div className="homepage">
           <div className="homepage-left">
@@ -21,11 +16,10 @@ function HomePage() {
                 fontFamily: "Verdana",
                 fontWeight: "bold",
                 letterSpacing: "3px",
-                paddingTop:"1rem"
-
+                paddingTop: "1rem",
               }}
             >
-              Pharmacy & Laboratory
+              Pharmacy
             </h1>
             <h1
               style={{
@@ -33,12 +27,12 @@ function HomePage() {
                 fontWeight: "bold",
                 letterSpacing: "2px",
                 fontSize: "1.3rem",
-                paddingTop:"0.4rem"
+                paddingTop: "0.4rem",
               }}
             >
               Inventory Management System
             </h1>
-            <h6 style={{ letterSpacing: "2px", paddingTop:"0.9rem"}}>
+            <h6 style={{ letterSpacing: "2px", paddingTop: "0.9rem" }}>
               Secure & accessible digital medical data
             </h6>
           </div>
@@ -54,12 +48,10 @@ function HomePage() {
                   checked
                 />
                 <label htmlFor="tab-1" className="tab">
-                  Pharmacy
+                  Sign In
                 </label>
-                <input id="tab-2" type="radio" name="tab" className="sign-up" />
-                <label htmlFor="tab-2" className="tab">
-                  Laboratory 
-                </label>
+                <input id="tab-2" name="tab" className="sign-up" />
+                <label htmlFor="tab-2" className="tab"></label>
                 <div className="login-form">
                   <div className="sign-in-htm">
                     <div class="group">
@@ -183,7 +175,8 @@ function HomePage() {
                     </div>
                     <div className="hr"></div>
                     <div className="foot-lnk">
-                      <a href="#forgot">Forgot Password?</a> <br />Don't have account?
+                      <a href="#forgot">Forgot Password?</a> <br />
+                      Don't have account?
                       <Link to="/"> Sign up</Link>
                     </div>
                   </div>
@@ -194,13 +187,8 @@ function HomePage() {
         </div>
         <Footer />
       </div>
-
-
-
-      
-      
     </>
   );
 }
 
-export default HomePage;
+export default LogIn;

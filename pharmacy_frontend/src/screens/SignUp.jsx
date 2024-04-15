@@ -1,15 +1,13 @@
-import React from 'react'
-import Logo from '../images/logo.png'
-import { Link } from 'react-router-dom'
-import Footer from '../component/Footer'
-import '../AllStyles/login&signStyles.css'
+import React from "react";
+import Logo from "../images/logo.png";
+import { Link } from "react-router-dom";
+import Footer from "../component/Footer";
+import "../AllStyles/login&signStyles.css";
 
-
-function HomePage2() {
+function SignUp() {
   return (
-
-<>
-<div>
+    <>
+      <div>
         <div className="homepage">
           <div className="homepage-left">
             <img src={Logo} className="App-logo" alt="logo" />
@@ -18,22 +16,25 @@ function HomePage2() {
                 fontFamily: "Verdana",
                 fontWeight: "bold",
                 letterSpacing: "3px",
-
+                paddingTop: "1rem",
               }}
             >
-              Pharmacy & Laboratory
+              Pharmacy
             </h1>
             <h1
               style={{
                 fontFamily: "Verdana",
                 fontWeight: "bold",
                 letterSpacing: "2px",
-                fontSize: "1.3rem"
+                fontSize: "1.3rem",
+                paddingTop: "0.4rem",
               }}
             >
               Inventory Management System
             </h1>
-            <h6 style={{ letterSpacing: "2px" }}> Secure & accessible digital medical data</h6>
+            <h6 style={{ letterSpacing: "2px", paddingTop: "0.9rem" }}>
+              Secure & accessible digital medical data
+            </h6>
           </div>
           <div className="homepage-divider"></div>
           <div className="login-section">
@@ -47,12 +48,10 @@ function HomePage2() {
                   checked
                 />
                 <label htmlFor="tab-1" className="tab">
-                  Pharmary
+                  Sign Up
                 </label>
-                <input id="tab-2" type="radio" name="tab" className="sign-up" />
-                <label htmlFor="tab-2" className="tab">
-                  Laboratory Professionals
-                </label>
+                <input id="tab-2" name="tab" className="sign-up" />
+                <label htmlFor="tab-2" className="tab"></label>
                 <div className="login-form">
                   <div className="sign-in-htm">
                     <div className="group">
@@ -111,7 +110,7 @@ function HomePage2() {
                       />
                     </div>
                     <div className="group">
-                      <Link to="/profile">
+                      <Link to="/app">
                         <input
                           type="submit"
                           className="button"
@@ -122,9 +121,7 @@ function HomePage2() {
                     <div className="hr"></div>
                     <div className="foot-lnk">
                       <p>
-                        Already have an account? <Link to="/">
-                          Sign in
-                        </Link>
+                        Already have an account? <Link to="/">Sign in</Link>
                       </p>
                     </div>
                   </div>
@@ -200,10 +197,8 @@ function HomePage2() {
         </div>
         <Footer />
       </div>
-
-</>
-
-    )
+    </>
+  );
 }
 
-export default HomePage2
+export default SignUp;
